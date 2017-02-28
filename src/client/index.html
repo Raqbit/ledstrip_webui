@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html>
+
+  <head>
+    <title>LED-Strip WebUI</title>
+
+    <meta charset="utf-8">
+
+    <!-- No resizing -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Material Design font and icons -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design Theme -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ripples.min.css">
+
+    <!-- Dropdown css -->
+    <link href="css/jquery.dropdown.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <!-- Google Recaptcha -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <!-- Site Style -->
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="background"></div>
+    <div class="container">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="well">
+          <h1>LED-Strip WebUI</h1>
+          <label id="pickerLabel">Color: </label>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js "></script>
+
+    <!-- Bootstrap Material Design Thema JS -->
+    <script src="js/material.min.js "></script>
+    <script src="js/ripples.min.js "></script>
+
+    <!-- Initialiseren van het Material thema -->
+    <script>
+      $.material.init();
+    </script>
+
+    <!-- Dropdown JS -->
+    <script src="js/jquery.dropdown.js "></script>
+    <script>
+      $("#dropdown-menu select ").dropdown();
+    </script>
+    </footer>
+
+    <script src="js/socket.io.js "></script>
+    <script src="js/jscolor.js "></script>
+    <script>
+      const socket = io();
+
+      socket.on('initial_color', color => {
+        const input = document.createElement('input');
+        input.id = 'colorpicker';
+        input.className = "jscolor {onFineChange: 'updateColor(this)'} ";
+        input.value = color;
+        document.getElementById('pickerLabel').appendChild(input);
+        jscolor.installByClassName("jscolor");
+      });
+
+      socket.on('color_change', color => {
+        document.getElementById('colorpicker').jscolor.fromString(color);
+        console.log('Setting color to: ' + color);
+      });
+
+      function updateColor(jscolor) {
+        const color = jscolor.toHEXString();
+        socket.emit('color_change', color);
+      }
+    </script>
+  </body>
+
+</html>

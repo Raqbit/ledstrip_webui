@@ -1,0 +1,20 @@
+{
+  "name": "ledstrip_webui",
+  "version": "1.0.0",
+  "description": "Web UI for controlling RGB LED Strips",
+  "main": "src/index.js",
+  "public": false,
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "Raqbit <raqbit@outlook.com>",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "color-convert": "^1.9.0",
+    "eslint": "^3.16.1",
+    "eslint-config-google": "^0.7.1",
+    "express": "^4.14.1",
+    "socket.io": "^1.7.3"
+  }
+}
